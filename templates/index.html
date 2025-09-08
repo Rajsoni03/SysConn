@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Config Setup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2em;
+            background: #000;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+        }
+
+        .form-group {
+            margin-bottom: 1em;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5em;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.5em;
+            background: #222;
+            color: #fff;
+            border: 1px solid #444;
+        }
+
+        button {
+            padding: 0.5em 1em;
+            background: #444;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+        <div class="container">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}" style="color: green; margin-bottom: 1em;">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+        <h2>System Flask Configuration (v{{ data.VERSION }})</h2>
+        <form id="configForm" action="/set_config" method="post">
+            <div class="form-group">
+                <label for="auth_token">Auth Token</label>
+                <input type="text" id="auth_token" name="AUTH_TOKEN" value="{{ data.AUTH_TOKEN }}" required>
+            </div>
+            <div class="form-group">
+                <label for="sudo_password">Sudo Password</label>
+                <input type="text" id="sudo_password" name="SUDO_PASSWORD" value="{{ data.SUDO_PASSWORD }}" required>
+            </div>
+            <button type="submit">Save Config</button>
+        </form>
+        <div id="message"></div>
+    </div>
+</body>
+
+</html>

@@ -3,12 +3,20 @@
 This project is a Flask-based REST API system for managing commands and workareas, with authentication middleware and modular service structure.
 
 
-## Features
-
--   RESTful API endpoints for system commands and workareas
--   Token-based authentication middleware
--   Modular code structure (services, API, config)
--   Template rendering
+## Features:
+- [x] Restful API endpoints
+- [x] Token-based authentication middleware
+- [x] Create Directory
+- [x] Execute Commands
+- [ ] Execute Commands with Sudo
+- [ ] Git Operations
+- [ ] Project Make Operations (make, make clean, cmake, etc.)
+- [ ] WebSocket for real-time command output streaming
+- [ ] Repo Sync (repo init, repo sync, repo start, repo upload)
+- [ ] Handle Multiple Workareas (Each workarea corresponds to a project directory on the user's PC)
+- [ ] Logging and Error Handling
+- [ ] Run other scripts (like setup scripts, build scripts, etc.)
+- [x] update itself when requested from Django (pull latest code from a git repository and restart the service)
 
 
 ## Project Structure

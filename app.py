@@ -37,22 +37,43 @@ api.add_resource(Command, '/api/v1/command')
 #########################[ Setting Up Configuration ]##############################
 
 @app.route('/', methods=['GET'])
-def get_config():
+def home():
     data = {
         "VERSION": TOOL_VERSION,
     }
-    data.update(config.get_data())
+    AUTH_TOKEN = config.get_data().get("AUTH_TOKEN")
+    SUDO_PASSWORD = config.get_data().get("SUDO_PASSWORD")
+    data["AUTH_TOKEN"] = AUTH_TOKEN if AUTH_TOKEN else ""
+    data["SUDO_PASSWORD"] = SUDO_PASSWORD if SUDO_PASSWORD else ""
     return render_template('index.html', data=data)
 
 @app.route('/set_config', methods=['POST'])
 def set_config():
     data = request.form.to_dict()
-    with open(CONFIG_PATH, 'w') as f:
-        config.update(data)
-        f.write(json.dumps(config.get_data(), indent=4))
+    response = {}
+    # Validate input
+    if data.get("AUTH_TOKEN") in [None, "", "None", "null"] or data.get("SUDO_PASSWORD") in [None, "", "None", "null"]:
+        response = {
+            "status": "error",
+            "message": "AUTH_TOKEN and SUDO_PASSWORD cannot be empty or None"
+        }
+        return jsonify(response), 400
 
-    flash("Config updated successfully", "success")
-    return redirect(url_for('get_config'))
+    try:
+        with open(CONFIG_PATH, 'w') as f:
+            config.update(data)
+            f.write(json.dumps(config.get_data(), indent=4))
+        response = {
+            "status": "success",
+            "message": "Config updated successfully"
+        }
+        return jsonify(response)
+    except Exception as e:
+        response = {
+            "status": "error",
+            "message": f"Error updating config: {str(e)}"
+        }
+        return jsonify(response), 500
 
 @app.route('/version', methods=['GET'])
 def get_version():
@@ -85,4 +106,4 @@ def update():
 
 if __name__ == '__main__':
     app.wsgi_app = AuthMiddleware(app.wsgi_app)
-    socketio.run(app, debug=True, host='0.0.0.0', port=5500)
+    socketio.run(app, host='0.0.0.0', port=5500, debug=True)

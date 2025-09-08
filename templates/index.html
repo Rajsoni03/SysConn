@@ -45,19 +45,37 @@
         .success {
             color: green;
         }
+
+        .error {
+            color: red;
+        }
+
+        .message {
+            margin-top: 1em;
+        }
+
+        .documentation {
+            margin-top: 2em;
+        }
+
+        li {
+            margin-bottom: 0.3em;
+            font-size: 0.9em;
+            color: #ccc;
+            font-family:'Courier New', Courier, monospace;
+        }
+
+        a {
+            color: #1E90FF;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 
 <body>
-        <div class="container">
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                        {% for category, message in messages %}
-                            <div class="alert alert-{{ category }}" style="color: green; margin-bottom: 1em;">{{ message }}</div>
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %}
-
+    <div class="container">
         <h2>System Flask Configuration (v{{ data.VERSION }})</h2>
         <form id="configForm" action="/set_config" method="post">
             <div class="form-group">
@@ -70,7 +88,43 @@
             </div>
             <button type="submit">Save Config</button>
         </form>
-        <div id="message"></div>
+        <div id="message" class="message"></div>
+        
+        <p class="documentation">
+            ️📄 <strong>Documentation & Important Notes:</strong>
+            <ul>
+                <li>This tool requires an AUTH_TOKEN and SUDO_PASSWORD to operate securely.</li>
+                <li>Login to <a href="https://raj.dhcp.ti.com/token" target="_blank">MyZone</a> and generate an AUTH_TOKEN from there.</li>
+                <li>Set a SUDO_PASSWORD of your Linux machine.</li>
+                <li>Ensure that the AUTH_TOKEN and SUDO_PASSWORD are not empty or set to "null" / "None".</li>
+                <li>For security reasons, if the AUTH_TOKEN is set, only requests from localhost are allowed for configuration changes.</li>
+                <li>If you need to reset the configuration, you can manually edit the config.json file in the config directory.</li>
+                <li>Make sure to keep your AUTH_TOKEN and SUDO_PASSWORD secure and do not share them.</li>
+            </ul>
+            
+        </p>
+        <script>
+            document.getElementById('configForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const form = e.target;
+                const formData = new FormData(form);
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(async response => {
+                        const data = await response.json();
+                        if (response.ok && data.status === "success") {
+                            document.getElementById('message').innerHTML = `<div class='success'>${data.message}</div>`;
+                        } else {
+                            document.getElementById('message').innerHTML = `<div class='error'>${data.message || 'Error updating config'}</div>`;
+                        }
+                    })
+                    .catch(error => {
+                        document.getElementById('message').innerHTML = '<div class="error">Network error</div>';
+                    });
+            });
+        </script>
     </div>
 </body>
 

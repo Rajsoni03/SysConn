@@ -106,4 +106,4 @@ def update():
 
 if __name__ == '__main__':
     app.wsgi_app = AuthMiddleware(app.wsgi_app)
-    socketio.run(app, host='0.0.0.0', port=5500, debug=True)
+    socketio.run(app, host='0.0.0.0', port=5500, debug=True, allow_unsafe_werkzeug=True)

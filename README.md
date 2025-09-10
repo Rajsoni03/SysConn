@@ -27,7 +27,7 @@ api/v1/               # API endpoints (commands, workarea)
 services/             # Business logic for commands and workareas
 src/                  # Shared code (e.g., authentication, config)
 templates/            # HTML templates
-config/config.json    # Configuration file
+data/                 # Contains Configuration file and DB files
 ```
 
 
@@ -60,10 +60,10 @@ config/config.json    # Configuration file
 ## Configuration
 Web Interface:
 - Open browser and navigate to [`http://localhost:5500`](http://localhost:5500) in local machine.
-- Set AUTH_TOKEN and SUDO_PASSWORD from web interface. This updates the config.json file in config directory.
+- Set AUTH_TOKEN and SUDO_PASSWORD from web interface. This updates the config.json file in data directory.
 
 Manual File Update:
-- Update `config/config.json` with your desired `AUTH_TOKEN` and `SUDO_PASSWORD`.
+- Update `data/config.json` with your desired `AUTH_TOKEN` and `SUDO_PASSWORD`.
 - Restart the Flask app to apply changes.
 
 

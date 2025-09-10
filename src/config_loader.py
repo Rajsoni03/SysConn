@@ -1,14 +1,8 @@
 import json
 from pathlib import Path
+from src.utils.singleton import SingletonMeta
 
-CONFIG_PATH = Path.cwd() / "config" / "config.json"
-
-class SingletonMeta(type):
-    _instances = {}
-    def __call__(cls, *args, **kwargs):
-        if cls not in cls._instances:
-            cls._instances[cls] = super().__call__(*args, **kwargs)
-        return cls._instances[cls]
+CONFIG_PATH = Path.cwd() / "data" / "config.json"
 
 class Config(metaclass=SingletonMeta):
     def __init__(self, config_path=CONFIG_PATH):

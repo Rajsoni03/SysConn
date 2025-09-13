@@ -1,12 +1,19 @@
 #!/bin/bash
 
-echo "🚀 Starting SysConn Server with Gunicorn"
+# Check if python3.10 is available
+if ! command -v python3.10 &> /dev/null; then
+    echo "❌ Error: python3.10 is not installed or not in PATH."
+    echo "   Please install Python 3.10 before running this script."
+    exit 1
+fi
 
 # Check if running as root (not recommended)
 if [ "$EUID" -eq 0 ]; then
     echo "⚠️  Warning: Running as root is not recommended"
     echo "   Consider creating a dedicated user for the application"
 fi
+
+echo "🚀 Starting SysConn Server with Gunicorn"
 
 # Check if port 5500 is already in use
 PID=$(lsof -ti :5500)
@@ -38,7 +45,7 @@ else
     read -p "Do you want to create it now? [y/N]: " create_venv
     case "$create_venv" in
         y|Y )
-            python3 -m venv venv
+            python3.10 -m venv venv
             echo "✅ Virtual environment 'venv' created."
             source venv/bin/activate
             echo "📥 Installing dependencies..."

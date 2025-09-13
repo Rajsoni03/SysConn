@@ -2,11 +2,12 @@ import json
 import os
 import subprocess
 import sys
-from flask import Flask, jsonify, render_template, request, redirect, url_for, flash
+from flask import Flask, jsonify, render_template, request
 from flask_restful import Api
 from flask_socketio import SocketIO
 from src.auth import AuthMiddleware
 from src.config_loader import Config, CONFIG_PATH
+from src.utils.ip_utils import get_local_ip
 
 ###################################################################################
 ##########################[ Initializing Flask App ]###############################
@@ -18,8 +19,9 @@ import secrets
 app.secret_key = secrets.token_hex(32)  # Secure random secret key for session/flash
 api = Api(app)
 socketio = SocketIO(app, cors_allowed_origins="*")  # TODO: update CORS origins
-
 config = Config()
+
+active_sessions = {}
 
 ###################################################################################
 ############################[ Importing Resources ]################################
@@ -45,6 +47,7 @@ def home():
     SUDO_PASSWORD = config.get_data().get("SUDO_PASSWORD")
     data["AUTH_TOKEN"] = AUTH_TOKEN if AUTH_TOKEN else ""
     data["SUDO_PASSWORD"] = SUDO_PASSWORD if SUDO_PASSWORD else ""
+    data["IP_ADDRESS"] = get_local_ip()
     return render_template('index.html', data=data)
 
 @app.route('/set_config', methods=['POST'])
@@ -100,6 +103,15 @@ def update():
         return jsonify({"status": "error", "message": str(e)}), 500
 
     return jsonify({"status": "success", "message": "Updating and restarting..."})
+
+@app.route('/health', methods=['GET'])
+def health_check():
+    return {
+        'status': 'ok', 
+        'active_sessions': len(active_sessions),
+        'server_type': 'Gunicorn + EventLet',
+        'transport': 'WebSocket + Polling'
+    }
 
 ###################################################################################
 #########################[ Running the Flask Application ]#########################

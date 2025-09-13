@@ -208,6 +208,6 @@ __marimo__/
 
 # Application specific ignores
 data/config.json
-TODO.md
-test.py
 data/db/
+test_socket/
+logs/

@@ -33,6 +33,21 @@ data/                 # Contains Configuration file and DB files
 
 ## Setup and Run
 
+### Running with start_server.sh
+
+  - Clone the repository
+    ```sh
+    git clone https://github.com/Rajsoni03/system_flask.git
+    cd system_flask
+    ```
+  - You can use the provided `start_server.sh` script to automate environment setup and start the server with Gunicorn:
+
+    ```sh
+    ./start_server.sh
+    ```
+
+### Manual Setup (for development/testing only)
+
 1. Clone the repository
     ```sh
     git clone https://github.com/Rajsoni03/system_flask.git
@@ -51,9 +66,6 @@ data/                 # Contains Configuration file and DB files
     ```sh
     # to run the app for testing
     python app.py
-
-    # or to run the app in background
-    nohup python app.py > app.log 2>&1 &
     ```
 
 

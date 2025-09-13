@@ -1,12 +1,17 @@
-# System Flask Config
+# Data Directory
 
-This directory contains configuration files for the System Flask application.
+This directory contains data files used by the `system_flask` project.
 
-## Files
+## Structure
+
+- Store datasets, configuration files, or other resources required by the application.
+- Do not commit sensitive or large files to version control.
+
+## Config File
 
 - `config.json`: Main configuration file for the application. It includes settings such as authentication tokens, sudo passwords, and other configurable parameters.
 
-## Example
+### Example
 
 ```json
 {

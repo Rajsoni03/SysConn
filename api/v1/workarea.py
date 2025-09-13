@@ -1,5 +1,5 @@
 from flask_restful import reqparse, Resource
-from services.workarea_service import WorkareaService
+from src.services.workarea_service import WorkareaService
 
 parser = reqparse.RequestParser()
 service = WorkareaService("./workareas")

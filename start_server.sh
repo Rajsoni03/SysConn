@@ -1,10 +1,32 @@
 #!/bin/bash
 
+
 # Check if python3.10 is available
 if ! command -v python3.10 &> /dev/null; then
     echo "❌ Error: python3.10 is not installed or not in PATH."
     echo "   Please install Python 3.10 before running this script."
     exit 1
+fi
+
+# Check if lsof is available
+if ! command -v lsof &> /dev/null; then
+    OS=$(uname -s)
+    if [ "$OS" = "Linux" ]; then
+        # Check for Ubuntu
+        if [ -f /etc/os-release ] && grep -qi 'ubuntu' /etc/os-release; then
+            echo "🔍 'lsof' not found. Installing lsof (Ubuntu only)..."
+            sudo apt update && sudo apt install -y lsof
+        else
+            echo "❌ Error: 'lsof' is required but not found. Please install it manually."
+            exit 1
+        fi
+    elif [ "$OS" = "Darwin" ]; then
+        echo "❌ Error: 'lsof' is required but not found. Please install it manually on macOS."
+        exit 1
+    else
+        echo "❌ Error: 'lsof' is required but not found. Unsupported OS."
+        exit 1
+    fi
 fi
 
 # Check if running as root (not recommended)

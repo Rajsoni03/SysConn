@@ -207,6 +207,7 @@ marimo/_lsp/
 __marimo__/
 
 # Application specific ignores
+.github/
 data/config.json
 data/db/
 test_socket/

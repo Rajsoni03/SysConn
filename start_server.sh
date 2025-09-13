@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🚀 Starting System Flask Server with Gunicorn"
+echo "🚀 Starting SysConn Server with Gunicorn"
 
 # Check if running as root (not recommended)
 if [ "$EUID" -eq 0 ]; then

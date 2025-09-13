@@ -1,8 +1,8 @@
 from src.config_loader import Config
 
-SECURE_PATHS = ['/api/', '/update']
-PUBLIC_PATHS = ['/docs', '/version']
-PROTECTED_PATHS = ['/set_config', '/'] # if auth token is set, these paths also require auth
+SECURE_PATHS = ['/api/', '/update'] # paths that always require auth token
+PUBLIC_PATHS = ['/docs', '/version', "/health"] # open access to these paths
+PROTECTED_PATHS = ['/set_config', '/'] # if auth token is not set, allow access to these paths but restrict other paths to localhost only
 
 class AuthMiddleware:
     def __init__(self, app):

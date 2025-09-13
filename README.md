@@ -1,6 +1,6 @@
-# System Flask REST API
+# SysConn (System Connection) REST API
 
-This project is a Flask-based REST API system for managing commands and workareas, with authentication middleware and modular service structure.
+This project is a Flask-based REST API system for connecting to and managing system resources, with authentication middleware and modular service structure.
 
 
 ## Features:
@@ -28,6 +28,9 @@ services/             # Business logic for commands and workareas
 src/                  # Shared code (e.g., authentication, config)
 templates/            # HTML templates
 data/                 # Contains Configuration file and DB files
+logs/                 # Log files
+requirements.txt      # Python dependencies
+start_server.sh       # Script to set up environment and start the server
 ```
 
 
@@ -37,8 +40,8 @@ data/                 # Contains Configuration file and DB files
 
   - Clone the repository
     ```sh
-    git clone https://github.com/Rajsoni03/system_flask.git
-    cd system_flask
+    git clone https://github.com/Rajsoni03/SysConn.git
+    cd SysConn
     ```
   - You can use the provided `start_server.sh` script to automate environment setup and start the server with Gunicorn:
 
@@ -50,8 +53,8 @@ data/                 # Contains Configuration file and DB files
 
 1. Clone the repository
     ```sh
-    git clone https://github.com/Rajsoni03/system_flask.git
-    cd system_flask
+    git clone https://github.com/Rajsoni03/SysConn.git
+    cd SysConn
     ```
 2. Create and activate a Python virtual environment:
     ```sh

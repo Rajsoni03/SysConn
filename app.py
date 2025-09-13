@@ -2,6 +2,7 @@ import json
 import os
 import subprocess
 import sys
+import secrets
 from flask import Flask, jsonify, render_template, request
 from flask_restful import Api
 from flask_socketio import SocketIO
@@ -12,10 +13,10 @@ from src.utils.ip_utils import get_local_ip
 ###################################################################################
 ##########################[ Initializing Flask App ]###############################
 
-TOOL_VERSION = "1.0.0"
+TOOL_VERSION = "1.0.1"
 
 app = Flask(__name__)
-import secrets
+app.wsgi_app = AuthMiddleware(app.wsgi_app)
 app.secret_key = secrets.token_hex(32)  # Secure random secret key for session/flash
 api = Api(app)
 socketio = SocketIO(app, cors_allowed_origins="*")  # TODO: update CORS origins
@@ -117,5 +118,4 @@ def health_check():
 #########################[ Running the Flask Application ]#########################
 
 if __name__ == '__main__':
-    app.wsgi_app = AuthMiddleware(app.wsgi_app)
     socketio.run(app, host='0.0.0.0', port=5500, debug=True, allow_unsafe_werkzeug=True)

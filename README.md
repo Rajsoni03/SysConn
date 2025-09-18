@@ -65,7 +65,12 @@ start_server.sh       # Script to set up environment and start the server
     ```sh
     pip install -r requirements.txt
     ```
-4. Run the application:
+4. Allow incoming traffic on port 5500:
+   ```sh
+   sudo iptables -A INPUT -p tcp --dport 5500 -j ACCEPT
+   ```
+
+5. Run the application:
     ```sh
     # to run the app for testing
     python app.py

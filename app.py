@@ -86,15 +86,15 @@ def get_version():
 @app.route('/update', methods=['POST'])
 def update():
     try:
-        # Step 1: Pull the latest code
+        # Step 1: update the codebase and dependencies
         repo_dir = os.getcwd()
         result = subprocess.run(
-            ["git", "pull", "origin", "main"], cwd=repo_dir,
+            ["./update.sh"], cwd=repo_dir,
             stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
         )
 
         if result.returncode != 0:
-            return jsonify({"status": "error", "output": result.stderr}), 500
+            return jsonify({"status": "error", "stdout": result.stdout, "stderr": result.stderr}), 500
 
         # Step 2: Restart the server
         python = sys.executable

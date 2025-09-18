@@ -80,6 +80,16 @@ else
     esac
 fi
 
+# Allow incoming traffic on port 5500 (Linux only)
+OS=$(uname -s)
+if [ "$OS" = "Linux" ]; then
+    if sudo iptables -C INPUT -p tcp --dport 5500 -j ACCEPT 2>/dev/null; then
+        echo "✅ Firewall rule for port 5500 already exists."
+    else
+        echo "🔍 Warning: Please manually allow incoming traffic on port 5500..."
+    fi
+fi
+
 # Create logs directory
 mkdir -p logs
 echo "--------------------[ Starting Server - $(date) ]--------------------" >> logs/access.log

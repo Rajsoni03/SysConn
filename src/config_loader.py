@@ -9,7 +9,12 @@ class Config(metaclass=SingletonMeta):
         self.config_path = config_path
         self.data = {
             "AUTH_TOKEN": None,
-            "SUDO_PASSWORD": None
+            "SUDO_PASSWORD": None,
+            "PUSHER_APP_ID": None,
+            "PUSHER_KEY": None,
+            "PUSHER_SECRET": None,
+            "PUSHER_CLUSTER": "mt1",
+            "PUSHER_SSL": True,
         }
         self.load()
 

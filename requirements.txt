@@ -4,3 +4,4 @@ flask-restful
 tinydb
 eventlet
 gunicorn
+pusher

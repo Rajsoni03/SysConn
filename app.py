@@ -6,8 +6,8 @@ import secrets
 from flask import Flask, jsonify, render_template, request
 from flask_restful import Api
 from flask_socketio import SocketIO
-from src.auth import AuthMiddleware
-from src.config_loader import Config, CONFIG_PATH
+from src.app.auth import AuthMiddleware
+from src.app.config_loader import Config, CONFIG_PATH
 from src.utils.ip_utils import get_local_ip
 
 ###################################################################################

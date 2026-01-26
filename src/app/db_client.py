@@ -4,8 +4,7 @@ from pathlib import Path
 from tinydb import TinyDB, Query
 from typing import Any, Dict, List, Callable
 from src.utils.singleton import SingletonMeta
-
-DB_PATH = Path.cwd() / "data" / "db" / "main_db.json"
+from src.app.settings import DB_PATH
 
 class DB(metaclass=SingletonMeta):
 	def __init__(self, db_path: str = DB_PATH) -> None:

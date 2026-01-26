@@ -95,7 +95,7 @@
             ️📄 <strong>Documentation & Important Notes:</strong>
             <ul>
                 <li>This tool requires an AUTH_TOKEN and SUDO_PASSWORD to operate securely.</li>
-                <li>Login to <a href="https://raj.dhcp.ti.com/token" target="_blank">MyZone</a> and generate an AUTH_TOKEN from there.</li>
+                <li>Login to <a href="https://sdksure.dhcp.ti.com/token" target="_blank">MyZone</a> and generate an AUTH_TOKEN from there.</li>
                 <li>Set a SUDO_PASSWORD of your Linux machine.</li>
                 <li>Ensure that the AUTH_TOKEN and SUDO_PASSWORD are not empty or set to "null" / "None".</li>
                 <li>For security reasons, if the AUTH_TOKEN is set, only requests from localhost are allowed for configuration changes.</li>
@@ -120,9 +120,15 @@
                         } else {
                             document.getElementById('message').innerHTML = `<div class='error'>${data.message || 'Error updating config'}</div>`;
                         }
+                        setTimeout(() => {
+                            document.getElementById('message').innerHTML = '';
+                        }, 3000);
                     })
                     .catch(error => {
                         document.getElementById('message').innerHTML = '<div class="error">Network error</div>';
+                        setTimeout(() => {
+                            document.getElementById('message').innerHTML = '';
+                        }, 3000);
                     });
             });
         </script>

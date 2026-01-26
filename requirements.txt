@@ -5,6 +5,4 @@ pyserial==3.5
 pexpect==4.9.0
 requests==2.32.5
 gunicorn==23.0.0
-
-# tinydb==4.8.2
-# eventlet
+eventlet==0.40.4

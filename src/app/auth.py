@@ -18,11 +18,9 @@ class AuthMiddleware:
             # Allow open access to these paths
             pass
         elif any(url_path == path for path in PROTECTED_PATHS):
-            print("Accessing protected path:", url_path)
             # If no auth token is set, allow access to PROTECTED_PATHS
             # but restrict other paths to localhost only
             auth_token = Config().get_data().get("AUTH_TOKEN")
-            print("Auth token from config:", auth_token)
             if auth_token:
                 if environ.get('REMOTE_ADDR') not in ('127.0.0.1', '::1', 'localhost'):
                     start_response('403 Forbidden', [('Content-Type', 'application/json')])

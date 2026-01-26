@@ -10,6 +10,9 @@ API_VERSION = "v1"
 CONFIG_PATH = Path.cwd() / "data" / "config.json"
 DB_PATH = Path.cwd() / "data" / "db" / "main_db.json"
 
+# Available API Versions
+API_VERSIONS = ["common" ,"v1"]  # Future versions can be added here
+
 # API Path Access Control Lists
 SECURE_PATHS = ['/api/', '/update'] # paths that always require auth token
 PUBLIC_PATHS = ['/docs', '/version', "/health"] # open access to these paths

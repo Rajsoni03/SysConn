@@ -1,6 +1,6 @@
 # Data Directory
 
-This directory contains data files used by the `system_flask` project.
+This directory contains data files used by the `SysConn` project.
 
 ## Structure
 

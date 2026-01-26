@@ -1,40 +1,60 @@
 # SysConn (System Connection) REST API
 
-This project is a Flask-based REST API system for connecting to and managing system resources, with authentication middleware and modular service structure.
-
+This project is a Flask-based REST API system for connecting to and managing system resources, running tests, with authentication middleware and modular service structure.
 
 ## Features:
 - [x] Restful API endpoints
-- [x] Token-based authentication middleware
+- [x] Token-based authentication middleware with web interface for configuration
 - [x] Create Directory
 - [x] Execute Commands
 - [ ] Execute Commands with Sudo
-- [ ] Git Operations
-- [ ] Project Make Operations (make, make clean, cmake, etc.)
+- [ ] Execute Tests
+- [ ] Multiple test flow support
+- [ ] Plugin system for extensibility
 - [ ] WebSocket for real-time command output streaming
-- [ ] Repo Sync (repo init, repo sync, repo start, repo upload)
-- [ ] Handle Multiple Workareas (Each workarea corresponds to a project directory on the user's PC)
 - [ ] Logging and Error Handling
-- [ ] Run other scripts (like setup scripts, build scripts, etc.)
 - [x] update itself when requested from Django (pull latest code from a git repository and restart the service)
 
 
 ## Project Structure
 
 ```
-app.py                # Main Flask app entry point
-api/v1/               # API endpoints (commands, workarea)
-services/             # Business logic for commands and workareas
-src/                  # Shared code (e.g., authentication, config)
-templates/            # HTML templates
-data/                 # Contains Configuration file and DB files
-logs/                 # Log files
-requirements.txt      # Python dependencies
-start_server.sh       # Script to set up environment and start the server
+SysConn/
+├── app.py.                           # Main Flask app entry point
+├── requirements.txt                  # Python dependencies
+├── start_server.sh                   # Script to set up environment and start the server
+├── LICENSE                           # License file
+├── README.md                         # Project documentation
+├── api/
+│   ├── common/                       # Shared API logic (core_api.py)
+│   └── v1/                           # API v1 endpoints (command.py, workarea.py, run_test.py)
+├── data/
+│   ├── config.json                   # Configuration file (AUTH_TOKEN, SUDO_PASSWORD, etc.)
+│   └── db/                           # Local Json Database files
+├── logs/                             # Log files and log documentation
+├── src/
+│   ├── app/                          # App-level logic (auth, config_loader, db_client, settings)
+│   ├── core/                         # Core utilities (plugin_engine, session_manager)
+│   ├── modules/                      # Hardware modules (relay, uart)
+│   ├── plugins/                      # Plugin system (base_plugin, plugin_engine, result_plugin)
+│   ├── services/                     # Business logic (command_service, test_executor_service, workarea_service)
+│   ├── test_flow/                    # Test flow logic (base_flow, command_line, flow_list)
+│   └── utils/                        # Utility functions (exception, ip_utils, singleton)
+└── templates/                        # HTML templates for web interface
 ```
 
 
 ## Setup and Run
+
+### Prerequisites
+- Python 3.10 or higher
+
+### Open application port for incoming connections
+
+- Ensure port `5500` is open on your firewall to allow incoming connections to the Flask application.
+```
+sudo iptables -A INPUT -p tcp --dport 5500 -j ACCEPT
+```
 
 ### Running with start_server.sh
 

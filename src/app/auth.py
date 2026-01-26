@@ -1,4 +1,4 @@
-from src.config_loader import Config
+from src.app.config_loader import Config
 
 SECURE_PATHS = ['/api/', '/update'] # paths that always require auth token
 PUBLIC_PATHS = ['/docs', '/version', "/health"] # open access to these paths

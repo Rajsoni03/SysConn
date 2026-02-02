@@ -1,7 +1,7 @@
 from pathlib import Path
 
 # Application Version
-TOOL_VERSION = "1.0.2"
+TOOL_VERSION = "1.0.3"
 
 # Latest API Version
 API_VERSION = "v1"

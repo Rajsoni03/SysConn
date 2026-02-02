@@ -2,6 +2,9 @@ import os
 import json
 import sys
 import subprocess
+import threading
+import time
+
 from flask import render_template, make_response, request
 from flask_restful import Resource
 from src.app.config_loader import Config
@@ -73,9 +76,13 @@ class Update(Resource):
             if result.returncode != 0:
                 return {"status": "error", "output": result.stderr}, 500
 
-            # Step 2: Restart the server
-            python = sys.executable
-            os.execl(python, python, *sys.argv)  # replace current process
+            # Step 2: Restart the server in a background thread
+            def restart():
+                time.sleep(1)  # Give some time for the response to be sent
+                python = sys.executable
+                os.execl(python, python, *sys.argv)
+
+            threading.Thread(target=restart, daemon=True).start()
 
         except Exception as e:
             return {"status": "error", "message": str(e)}, 500

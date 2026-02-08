@@ -77,11 +77,19 @@ class TestExecutorService():
         # Setup logs directory for the test execution
         setup_logs_directory(self.unique_id)
 
+        # Update shared data with logs path
+        self.shared_data['logs'] = [
+            f"/logs/{self.unique_id}/mcu_uart.log"
+        ]
+
         return True
 
     def run_test(self) -> bool:
         # Run the test test_flow
         test_flow = self.data.get('test_flow', "")
+
+        # update data
+        self.data['id'] = self.unique_id
 
         # Test the test flow on new thread
         test_flow = FLOW_ROUTES[test_flow]

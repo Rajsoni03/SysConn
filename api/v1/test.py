@@ -22,9 +22,7 @@ class RunTest(Resource):
             "test_status": status, 
             'polling_url': f"/api/v1/test/status/{service.unique_id}",
             'websocket_url': f"/ws/logs/{service.unique_id}",
-            'logs': [
-                f"/logs/{service.unique_id}/exec.log"
-            ],
+            'logs': shared_data.get('logs', []),
             "status": True
         }, 201
 
@@ -40,8 +38,5 @@ class TestStatus(Resource):
             "test_id": id,
             "test_status": test_status, 
             'polling_url': f"/api/v1/test/status/{id}",
-            'websocket_url': f"/ws/logs/{id}",
-            'logs': [
-                f"/logs/{id}/exec.log"
-            ]
+            'websocket_url': f"/ws/logs/{id}"
         }, 200

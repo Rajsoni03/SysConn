@@ -159,7 +159,7 @@ if __name__ == "__main__":
 	
 	for i in range(10):
 		start = time()
-		for i in range(50):
+		for i in range(5):
 			db.insert({"name": "Alice", "age": 30})
 			db.insert({"name": "Bob", "age": 25})
 			db.insert({"name": "Charlie", "age": 35})
@@ -168,7 +168,6 @@ if __name__ == "__main__":
 			db.insert({"name": "Frank", "age": 40})
 			db.update({"age": 30}, lambda record: record["name"] == "Alice")
 			db.delete(lambda record: record["name"] == "Eve")
-			# db.delete_by_id("4d3778609e9943d98d261ebd586b7fb7")
 		end = time()
 		print("function takes", end-start, "seconds")
 		sleep(1)  # Sleep for a while to allow background sync to complete
@@ -179,7 +178,7 @@ if __name__ == "__main__":
 	
 	for i in range(10):
 		start = time()
-		for i in range(50):
+		for i in range(5):
 			db.insert({"name": "Alice", "age": 30})
 			db.insert({"name": "Bob", "age": 25})
 			db.insert({"name": "Charlie", "age": 35})
@@ -188,11 +187,6 @@ if __name__ == "__main__":
 			db.insert({"name": "Frank", "age": 40})
 			db.update({"age": 30}, lambda record: record["name"] == "Alice")
 			db.delete(lambda record: record["name"] == "Eve")
-			# db.delete_by_id("4d3778609e9943d98d261ebd586b7fb7")
 		end = time()
 		print("function takes", end-start, "seconds")
 		sleep(1)  # Sleep for a while to allow background sync to complete
-
-	# db.clear()
-
-	# pprint(db.get_all())s

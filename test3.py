@@ -2,53 +2,16 @@ import json
 import os
 import threading
 from pathlib import Path
-from time import sleep
-import uuid
-from tinydb import TinyDB, Query
+from time import time, sleep
 from typing import Any, Dict, List, Callable
+import uuid
+
+from tinydb import Query, TinyDB
 from src.utils.singleton import SingletonMeta
 from src.app.settings import DB_PATH_ROOT
+from pprint import pprint
 
-class DB(metaclass=SingletonMeta):
-	def __init__(self, db_path: str | Path = DB_PATH_ROOT / "main_db.json") -> None:
-		"""Initialize the database client."""
-		db_path = DB_PATH_ROOT / db_path
-		db_path.parent.mkdir(parents=True, exist_ok=True) # Ensure the directory exists
-		
-		self.db: TinyDB = TinyDB(db_path)
-		self.query: Query = Query()
-		self._lock = threading.Lock()
-
-	def insert(self, data: Dict[str, Any]) -> int:
-		"""Insert a new record into the database."""
-		with self._lock:
-			return self.db.insert(data)
-
-	def update(self, fields: Dict[str, Any], cond: Callable[[Dict[str, Any]], bool]) -> List[int]:
-		"""Update records matching the condition."""
-		with self._lock:
-			return self.db.update(fields, cond)
-
-	def delete(self, cond: Callable[[Dict[str, Any]], bool]) -> List[int]:
-		"""Delete records matching the condition."""
-		with self._lock:
-			return self.db.remove(cond)
-
-	def search(self, cond: Callable[[Dict[str, Any]], bool]) -> List[Dict[str, Any]]:
-		"""Search for records matching the condition."""
-		with self._lock:
-			return self.db.search(cond)
-
-	def get_all(self) -> List[Dict[str, Any]]:
-		"""Get all records from the database."""
-		with self._lock:
-			return self.db.all()
-
-	def clear(self) -> None:
-		"""Remove all records from the database."""
-		with self._lock:
-			self.db.truncate()
-
+DB_PATH_ROOT = Path.cwd() / "data" / "db"
 
 class JsonDB(metaclass=SingletonMeta):
 	def __init__(self, db_path: str | Path = DB_PATH_ROOT / "main_db.json") -> None:
@@ -147,3 +110,89 @@ class JsonDB(metaclass=SingletonMeta):
 				sleep(0.1)  # Sync every 0.1 seconds
 		thread = threading.Thread(target=sync_thread, daemon=True)
 		thread.start()
+
+
+class DB(metaclass=SingletonMeta):
+	def __init__(self, db_path: str | Path = DB_PATH_ROOT / "main_db.json") -> None:
+		"""Initialize the database client."""
+		db_path = DB_PATH_ROOT / db_path
+		db_path.parent.mkdir(parents=True, exist_ok=True) # Ensure the directory exists
+		
+		self.db: TinyDB = TinyDB(db_path)
+		self.query: Query = Query()
+		self._lock = threading.Lock()
+
+	def insert(self, data: Dict[str, Any]) -> int:
+		"""Insert a new record into the database."""
+		with self._lock:
+			return self.db.insert(data)
+
+	def update(self, fields: Dict[str, Any], cond: Callable[[Dict[str, Any]], bool]) -> List[int]:
+		"""Update records matching the condition."""
+		with self._lock:
+			return self.db.update(fields, cond)
+
+	def delete(self, cond: Callable[[Dict[str, Any]], bool]) -> List[int]:
+		"""Delete records matching the condition."""
+		with self._lock:
+			return self.db.remove(cond)
+
+	def search(self, cond: Callable[[Dict[str, Any]], bool]) -> List[Dict[str, Any]]:
+		"""Search for records matching the condition."""
+		with self._lock:
+			return self.db.search(cond)
+
+	def get_all(self) -> List[Dict[str, Any]]:
+		"""Get all records from the database."""
+		with self._lock:
+			return self.db.all()
+
+	def clear(self) -> None:
+		"""Remove all records from the database."""
+		with self._lock:
+			self.db.truncate()
+
+    
+if __name__ == "__main__":
+	print("----------- Testing Custom JSON DB Implementation -----------")
+	db = JsonDB("test_db.json")
+	
+	for i in range(10):
+		start = time()
+		for i in range(50):
+			db.insert({"name": "Alice", "age": 30})
+			db.insert({"name": "Bob", "age": 25})
+			db.insert({"name": "Charlie", "age": 35})
+			db.insert({"name": "David", "age": 28})
+			db.insert({"name": "Eve", "age": 22})
+			db.insert({"name": "Frank", "age": 40})
+			db.update({"age": 30}, lambda record: record["name"] == "Alice")
+			db.delete(lambda record: record["name"] == "Eve")
+			# db.delete_by_id("4d3778609e9943d98d261ebd586b7fb7")
+		end = time()
+		print("function takes", end-start, "seconds")
+		sleep(1)  # Sleep for a while to allow background sync to complete
+
+	print("----------- Testing TinyDB Implementation -----------")
+
+	db = DB("test_db_tiny.json")
+	
+	for i in range(10):
+		start = time()
+		for i in range(50):
+			db.insert({"name": "Alice", "age": 30})
+			db.insert({"name": "Bob", "age": 25})
+			db.insert({"name": "Charlie", "age": 35})
+			db.insert({"name": "David", "age": 28})
+			db.insert({"name": "Eve", "age": 22})
+			db.insert({"name": "Frank", "age": 40})
+			db.update({"age": 30}, lambda record: record["name"] == "Alice")
+			db.delete(lambda record: record["name"] == "Eve")
+			# db.delete_by_id("4d3778609e9943d98d261ebd586b7fb7")
+		end = time()
+		print("function takes", end-start, "seconds")
+		sleep(1)  # Sleep for a while to allow background sync to complete
+
+	# db.clear()
+
+	# pprint(db.get_all())s

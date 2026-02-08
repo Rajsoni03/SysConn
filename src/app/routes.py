@@ -3,7 +3,7 @@ from api.common.log import Logs
 
 from api.v1.workarea import Workarea
 from api.v1.command import Command
-from api.v1.run_test import RunTest
+from api.v1.test import RunTest, TestStatus
 from api.v1.uart import ListUart
 
 from src.app.settings import API_VERSIONS
@@ -15,13 +15,14 @@ API_ROUTES = {
         ('/version', Version),
         ('/update', Update),
         ('/health', HealthCheck),
-        ('/logs', Logs)
+        ('/logs/<path:filepath>', Logs)
     ],
     "v1": [
         ('/api/v1/workarea', Workarea),
         ('/api/v1/command', Command),
-        ('/api/v1/run_test', RunTest),
-        ('/api/v1/uart/list', ListUart)
+        ('/api/v1/uart/list', ListUart),
+        ('/api/v1/test/run', RunTest), 
+        ('/api/v1/test/status/<string:id>', TestStatus),
     ],
     "v2": [
         # Future v2 routes can be added here

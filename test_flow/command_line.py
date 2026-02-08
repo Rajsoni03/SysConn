@@ -3,11 +3,11 @@ from functools import wraps
 from test_flow.base_flow import IBaseFlow
 
 class CommandLineTestFlow(IBaseFlow):
-    def setup(self, data: dict, response: dict, db) -> bool:
+    def setup(self, data: dict, shared_data: dict, db) -> bool:
         # Setup necessary environment for command line test
         print("Setting up Command Line Test Flow")
         self.data = data
-        self.response = response
+        self.shared_data = shared_data
         self.db = db
         return True
     

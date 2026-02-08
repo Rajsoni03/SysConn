@@ -3,11 +3,11 @@ from functools import wraps
 from test_flow.base_flow import IBaseFlow
 
 class ExampleTestFlow(IBaseFlow):
-    def setup(self, data: dict, response: dict, db) -> bool:
+    def setup(self, data: dict, shared_data: dict, db) -> bool:
         # Setup necessary environment for Example test
         print("Setting up Example Test Flow")
         self.data = data
-        self.response = response
+        self.shared_data = shared_data
         self.db = db
         return True
     

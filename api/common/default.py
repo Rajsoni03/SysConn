@@ -34,7 +34,7 @@ class SetConfig(Resource):
 
         # Validate input
         invalid_input = ['', None, 'None', 'none', 'NULL', 'null', 'undefined', 'NaN', 'nan']
-        if args.get("AUTH_TOKEN") in invalid_input or args.get("SUDO_PASSWORD").lower() in invalid_input:
+        if args.get("AUTH_TOKEN") in invalid_input or args.get("SUDO_PASSWORD", "").lower() in invalid_input:
             response = {
                 "status": "error",
                 "message": "AUTH_TOKEN and SUDO_PASSWORD cannot be empty or None"

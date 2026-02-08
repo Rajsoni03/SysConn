@@ -1,5 +1,31 @@
 #!/bin/bash
 
+DEBUG_MODE=false
+
+# Parse command line arguments (--debug, --help, etc.)
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        --debug)
+            echo "🔧 Debug mode enabled"
+            DEBUG_MODE=true
+            ;;
+        --help)
+            echo "Usage: ./start_server.sh [options]"
+            echo ""
+            echo "Options:"
+            echo "  --help        Show this help message and exit"
+            echo "  --debug       Start the server in debug mode"
+            exit 0
+            ;;
+        *)
+            echo "Unknown parameter passed: $1"
+            echo "Use --help to see available options."
+            exit 1
+            ;;
+    esac
+    shift
+done
+
 
 # Check if python3.10 is available
 if ! command -v python3.10 &> /dev/null; then
@@ -33,6 +59,17 @@ fi
 if [ "$EUID" -eq 0 ]; then
     echo "⚠️  Warning: Running as root is not recommended"
     echo "   Consider creating a dedicated user for the application"
+fi
+
+# open port 5500 for public access (if on Linux and not already open) with (iptables)
+if [ "$(uname -s)" = "Linux" ]; then
+    if ! sudo iptables -C INPUT -p tcp --dport 5500 -j ACCEPT &> /dev/null; then
+        echo "🔓 Opening port 5500 for public access..."
+        sudo iptables -A INPUT -p tcp --dport 5500 -j ACCEPT
+        echo "✅ Port 5500 opened."
+    else
+        echo "✅ Port 5500 is already open."
+    fi
 fi
 
 echo "🚀 Starting SysConn Server with Gunicorn"
@@ -78,6 +115,12 @@ else
             exit 1
             ;;
     esac
+fi
+
+if [ "$DEBUG_MODE" = true ]; then
+    python app.py --debug 
+    echo "🐞 Flask environment set to development"
+    exit 0
 fi
 
 # Create logs directory

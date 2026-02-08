@@ -4,12 +4,13 @@ from pathlib import Path
 from tinydb import TinyDB, Query
 from typing import Any, Dict, List, Callable
 from src.utils.singleton import SingletonMeta
-from src.app.settings import DB_PATH
+from src.app.settings import DB_PATH_ROOT
 
 class DB(metaclass=SingletonMeta):
-	def __init__(self, db_path: str = DB_PATH) -> None:
+	def __init__(self, db_path: str | Path = DB_PATH_ROOT / "main_db.json") -> None:
 		"""Initialize the database client."""
-		os.makedirs(os.path.dirname(db_path), exist_ok=True)
+		db_path = DB_PATH_ROOT / db_path
+		db_path.parent.mkdir(parents=True, exist_ok=True) # Ensure the directory exists
 		
 		self.db: TinyDB = TinyDB(db_path)
 		self.query: Query = Query()
@@ -44,6 +45,4 @@ class DB(metaclass=SingletonMeta):
 		"""Remove all records from the database."""
 		with self._lock:
 			self.db.truncate()
-
-
 

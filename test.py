@@ -1,5 +1,5 @@
 from src.plugins.plugin_engine import Plugin
-from src.test_flow.base_flow import IBaseFlow
+from test_flow.base_flow import IBaseFlow
 
 plugin = Plugin()
 

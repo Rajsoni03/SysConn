@@ -212,3 +212,4 @@ data/config.json
 data/db/
 test_socket/
 logs/
+workarea/

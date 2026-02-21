@@ -1,5 +1,6 @@
-import os
 from abc import ABC, abstractmethod
+from pathlib import Path
+from src.app.settings import WORKAREA_DIR
 
 class IWorkareaService(ABC):
     @abstractmethod
@@ -10,15 +11,15 @@ class IWorkareaService(ABC):
         pass
 
 class WorkareaService(IWorkareaService):
-    def __init__(self, base_path: str):
-        self.base_path = base_path
+    def __init__(self, base_path: str | Path = WORKAREA_DIR):
+        self.base_path = Path(base_path)
 
     def create_workarea(self, name: str) -> tuple:
-        path = os.path.join(self.base_path, name)
-        if not os.path.exists(path):
-            os.makedirs(path)
-            return True, os.path.abspath(path)
-        return False, os.path.abspath(path)
+        path = self.base_path / name
+        if not path.exists():
+            path.mkdir(parents=True, exist_ok=True)
+            return True, str(path.resolve())
+        return False, str(path.resolve())
 
     def repo_sync(self, device: str, sdk: str, xml_name: str) -> tuple:
         pass

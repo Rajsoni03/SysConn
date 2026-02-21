@@ -20,3 +20,6 @@ PROTECTED_PATHS = ['/set_config', '/'] # if auth token is not set, allow access 
 
 # Logs and Uploads
 LOGS_DIR = Path.cwd() / "logs" 
+
+# Workarea
+WORKAREA_DIR = Path.cwd() / "workarea"

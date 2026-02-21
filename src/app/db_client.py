@@ -7,7 +7,7 @@ import uuid
 from tinydb import TinyDB, Query
 from typing import Any, Dict, List, Callable
 from src.utils.singleton import SingletonMeta
-from src.app.settings import DB_PATH_ROOT
+from config.settings import DB_PATH_ROOT
 
 class DB(metaclass=SingletonMeta):
 	def __init__(self, db_path: str | Path = DB_PATH_ROOT / "main_db.json") -> None:

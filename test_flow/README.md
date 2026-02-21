@@ -209,12 +209,12 @@
     "type": "uart_command",
     "command_info": {
         "command": "cd /opt/vision_apps/ && ( sleep 5; echo a; sleep 15; echo x ) | ./vx_app_tutorial.out",
-        "uart_port": "mpu0",
+        "uart_port": "application",
     },
     "constraint": {
         "expected_output": "APP: Deinit ... Done !!!",
         "return_code": 0,
-        "log_port": "mpu0",
+        "log_port": "application",
         "error_patterns": ["Error", "error", "Failed", "failed"],
         "timeout": 2500
     },
@@ -244,8 +244,12 @@
 | mcu3      | UART port connected to MCU3 |
 | mpu0      | UART port connected to MPU0 |
 | mpu1      | UART port connected to MPU1 |
+| application | UART port connected to the application processor (if different from mpu0/mpu1) |
+| sbl       | UART port used for SBL (Secondary Boot Loader) logs (if different from mcu0-mcu3) |
+| debug     | UART port used for debug logs xds110 |
 | auto      | Automatically determine the UART port based on the device configuration and test requirements |
 
+> Note: The uart_port can be configured based on the specific hardware setup and which processor or component the command needs to be sent to. The test framework will use this information to route the command to the correct UART interface.
 
 ### host_command
 ```json

@@ -1,5 +1,5 @@
 from src.app.config_loader import Config
-from src.app.settings import SECURE_PATHS, PUBLIC_PATHS, PROTECTED_PATHS
+from config.settings import SECURE_PATHS, PUBLIC_PATHS, PROTECTED_PATHS
 
 class AuthMiddleware:
     def __init__(self, app):

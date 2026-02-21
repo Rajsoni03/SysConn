@@ -6,7 +6,7 @@ from enum import Enum
 from uuid import uuid1 as UUID
 from test_flow.flow_list import FLOW_ROUTES
 from src.app.db_client import DB
-from src.app.settings import LOGS_DIR
+from config.settings import LOGS_DIR
 
 
 class TEST_STATUS(Enum):

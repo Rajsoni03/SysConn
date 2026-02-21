@@ -2,7 +2,7 @@
 import time
 from src.modules.uart import Uart
 from test_flow.base_flow import IBaseFlow
-from src.app.settings import LOGS_DIR
+from config.settings import LOGS_DIR
 
 class CommandLineTestFlow(IBaseFlow):
     def setup(self, data: dict, shared_data: dict, db) -> bool:

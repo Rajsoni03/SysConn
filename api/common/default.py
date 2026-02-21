@@ -9,7 +9,7 @@ from flask import render_template, make_response, request
 from flask_restful import Resource
 from src.app.config_loader import Config
 from src.utils.ip_utils import get_local_ip
-from src.app.settings import TOOL_VERSION, CONFIG_PATH
+from config.settings import TOOL_VERSION, CONFIG_PATH
 
 config = Config()
 

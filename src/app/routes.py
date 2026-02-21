@@ -6,7 +6,7 @@ from api.v1.command import Command
 from api.v1.test import RunTest, TestStatus
 from api.v1.uart import ListUart
 
-from src.app.settings import API_VERSIONS
+from config.settings import API_VERSIONS
 
 API_ROUTES = {
     "common": [

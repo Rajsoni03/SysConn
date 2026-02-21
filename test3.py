@@ -8,7 +8,7 @@ import uuid
 
 from tinydb import Query, TinyDB
 from src.utils.singleton import SingletonMeta
-from src.app.settings import DB_PATH_ROOT
+from config.settings import DB_PATH_ROOT
 from pprint import pprint
 
 DB_PATH_ROOT = Path.cwd() / "data" / "db"

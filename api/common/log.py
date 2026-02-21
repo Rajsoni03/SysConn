@@ -1,6 +1,6 @@
 from flask import request, send_from_directory
 from flask_restful import Resource
-from src.app.settings import LOGS_DIR
+from config.settings import LOGS_DIR
 
 class Logs(Resource):
     def get(self, filepath: str):

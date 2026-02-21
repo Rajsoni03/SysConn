@@ -2,7 +2,7 @@ from flask import request
 from flask_restful import Resource
 from src.services.test_executor_service import TestExecutorService
 from src.services.test_status_service import TestStatusService
-from src.app.settings import HOSTNAME, PORT
+from config.settings import HOSTNAME, PORT
 
 
 class RunTest(Resource):

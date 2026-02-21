@@ -12,7 +12,7 @@ HOSTNAME = f"{socket.gethostname()}.local"
 PORT = 5500
 
 # File Paths
-CONFIG_PATH = Path.cwd() / "data" / "config.json"
+CONFIG_PATH = Path.cwd() / "config" / "config.json"
 DB_PATH_ROOT = Path.cwd() / "data" / "db"
 
 # Available API Versions

@@ -79,7 +79,7 @@ class TestExecutorService():
 
         # Update shared data with logs path
         self.shared_data['logs'] = [
-            f"/logs/{self.unique_id}/mcu_uart.log"
+            f"logs/{self.unique_id}/mcu_uart.log"
         ]
 
         return True

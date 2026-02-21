@@ -2,6 +2,7 @@ from flask import request
 from flask_restful import Resource
 from src.services.test_executor_service import TestExecutorService
 from src.services.test_status_service import TestStatusService
+from src.app.settings import HOSTNAME, PORT
 
 
 class RunTest(Resource):
@@ -20,9 +21,9 @@ class RunTest(Resource):
         return {
             "id": service.unique_id,
             "test_status": status, 
-            'polling_url': f"/api/v1/test/status/{service.unique_id}",
-            'websocket_url': f"/ws/logs/{service.unique_id}",
-            'logs': shared_data.get('logs', []),
+            'polling_url': f"http://{HOSTNAME}:{PORT}/api/v1/test/status/{service.unique_id}",
+            'websocket_url': f"ws://{HOSTNAME}:{PORT}/ws/logs/{service.unique_id}",
+            'logs': [ f"http://{HOSTNAME}:{PORT}/{path}" for path in shared_data.get('logs', [])],
             "status": True
         }, 201
 

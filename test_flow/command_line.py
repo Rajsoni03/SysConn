@@ -41,4 +41,5 @@ class CommandLineTestFlow(IBaseFlow):
         status = self.mcu_uart.send_command("reboot", "Rebooting...", timeout=5)
     
         self.mcu_uart.disconnect()
+        print(f"Command Line Test Flow execution status: {status}") 
         return True

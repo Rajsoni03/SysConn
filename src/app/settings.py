@@ -1,10 +1,15 @@
 from pathlib import Path
+import socket
 
 # Application Version
 TOOL_VERSION = "1.0.5"
 
 # Latest API Version
 API_VERSION = "v1"
+
+# Hostname and Port
+HOSTNAME = f"{socket.gethostname()}.local"
+PORT = 5500
 
 # File Paths
 CONFIG_PATH = Path.cwd() / "data" / "config.json"

@@ -1,16 +1,18 @@
 {
+    "device_name": "j721s2-evm-#001",
+    "device_type": "j721s2-evm",
     "uart_port_map": {
-        "mcu0" : "/dev/ttyS0",
-        "mcu1" : "/dev/ttyS1",
-        "mcu2" : "/dev/ttyS2",
-        "mcu3" : "/dev/ttyS3",
-        "mpu0": "/dev/ttyS4",
-        "mpu1": "/dev/ttyS5",
-        "application" : "/dev/ttyS7",
-        "sbl": "/dev/ttyS8",
-        "debug": "/dev/ttyS6",
-        "auto": null,
-        "default": "/dev/ttyS0"
+        "mpu0" : "/dev/ttyUSB0",
+        "mpu1" : "/dev/ttyUSB1",
+        "mpu2" : "/dev/ttyUSB2",
+        "mpu3" : "/dev/ttyUSB3",
+        "mcu0": "/dev/ttyUSB4",
+        "mcu1": "/dev/ttyUSB5",
+        "application" : "/dev/ttyUSB0",
+        "sbl": "/dev/ttyUSB4",
+        "debug": "/dev/ttyACM2",
+        "auto": "/dev/ttyUSB0",
+        "default": "/dev/ttyUSB0"
     },
     "boot_mode_map": {
         "uart": "000E",
@@ -21,18 +23,18 @@
         "default": "000E"
     },
     "health_check": {
-        "uart_ports": ["mcu0", "mcu1", "mcu2", "mcu3", "mpu0", "mpu1", "application", "sbl", "debug"],
+        "uart_ports": ["mpu0", "mpu1", "mpu2", "mpu3", "mcu0", "mcu1", "application", "sbl", "debug"],
         "check_interval_seconds": 60,
         "error_threshold": 5
     },
     "power_config": {
         "module": "relay",
         "settings": {
-            "ip_address": "192.168.1.100",
-            "port": 1234,
+            "ip_address": "10.24.50.173",
+            "port": 1,
             "username": "admin",
-            "password": "password",
-            "outlet_number": 2
+            "password": "1234",
+            "outlet_number": 1
         }
     }
 }

@@ -1,0 +1,69 @@
+{
+    "id": "test_001",
+    "device_name": "j721s2-evm",
+    "device_id": "#001",
+    "jira_id": "ADASVISION-1001",
+    "test_app_name": "simple_boot_test",
+    "description": "Simple boot test with power cycle and basic UART commands",
+    "core": "a72",
+    "os": ["linux"],
+    "boot_mode": "mmcsd",
+    "platform": ["j721s2_evm"],
+    "iteration": "1",
+    "timeout": 300,
+    "test_flow": "command_line",
+    "test_steps": [
+        {
+            "type": "power_control",
+            "power_state": "reset",
+            "pre_delay": 0,
+            "post_delay": 5
+        },
+        {
+            "type": "delay",
+            "delay_in_seconds": 10
+        },
+        {
+            "type": "uart_command",
+            "command_info": {
+                "command": "",
+                "uart_port": "application"
+            },
+            "constraint": {
+                "expected_output": "login:",
+                "log_port": "application",
+                "timeout": 60
+            }
+        },
+        {
+            "type": "uart_command",
+            "command_info": {
+                "command": "root",
+                "uart_port": "application"
+            },
+            "constraint": {
+                "expected_output": "root@",
+                "log_port": "application",
+                "timeout": 10
+            }
+        },
+        {
+            "type": "uart_command",
+            "command_info": {
+                "command": "uname -a",
+                "uart_port": "application"
+            },
+            "constraint": {
+                "expected_output": "Linux",
+                "log_port": "application",
+                "timeout": 5
+            }
+        },
+        {
+            "type": "power_control",
+            "power_state": "off",
+            "pre_delay": 1,
+            "post_delay": 0
+        }
+    ]
+}

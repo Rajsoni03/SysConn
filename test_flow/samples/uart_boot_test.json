@@ -1,0 +1,77 @@
+{
+    "id": "test_003",
+    "device_name": "j721s2-evm",
+    "device_id": "#001",
+    "jira_id": "ADASVISION-1003",
+    "test_app_name": "uart_boot_application",
+    "description": "UART boot with image flashing",
+    "core": "mcu1_0",
+    "os": ["baremetal"],
+    "boot_mode": "uart",
+    "platform": ["j721s2_evm"],
+    "iteration": "1",
+    "timeout": 600,
+    "test_flow": "command_line",
+    "test_steps": [
+        {
+            "type": "power_control",
+            "power_state": "reset"
+        },
+        {
+            "type": "boot_mode",
+            "boot_mode_name": "uart",
+            "post_delay": 2
+        },
+        {
+            "type": "delay",
+            "delay_in_seconds": 3
+        },
+        {
+            "type": "uart_image_flashing",
+            "image_info": {
+                "image_path": "pdk_j721s2_1_0_5/packages/ti/boot/sbl/binary/j721s2_evm/uart/bin/sbl_uart_img_mcu1_0_release.tiimage",
+                "flashing_port": "mcu1",
+                "timeout": 60
+            },
+            "constraint": {
+                "expected_output": "Waiting for tifs.bin",
+                "log_port": "mcu1",
+                "timeout": 60
+            }
+        },
+        {
+            "type": "uart_image_flashing",
+            "image_info": {
+                "image_path": "pdk_j721s2_1_0_5/packages/ti/drv/sciclient/soc/V4/tifs.bin",
+                "flashing_port": "mcu1",
+                "timeout": 60
+            },
+            "constraint": {
+                "expected_output": "Waiting for multicore app",
+                "log_port": "mcu1",
+                "timeout": 60
+            }
+        },
+        {
+            "type": "uart_image_flashing",
+            "image_info": {
+                "image_path": "pdk_j721s2_1_0_5/packages/ti/binary/uart_boot_application/bin/j721s2_evm/uart_boot_app_mcu1_0_release.appimage",
+                "flashing_port": "mcu1",
+                "timeout": 60
+            },
+            "constraint": {
+                "expected_output": "All tests have passed!!",
+                "log_port": "mcu1",
+                "timeout": 120
+            }
+        },
+        {
+            "type": "delay",
+            "delay_in_seconds": 2
+        },
+        {
+            "type": "power_control",
+            "power_state": "off"
+        }
+    ]
+}

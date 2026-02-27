@@ -8,7 +8,7 @@ TOOL_VERSION = "1.0.5"
 API_VERSION = "v1"
 
 # Hostname and Port
-HOSTNAME = f"{socket.gethostname()}.local"
+HOSTNAME = f"{socket.gethostname()}.dhcp.ti.com"
 PORT = 5500
 
 # File Paths

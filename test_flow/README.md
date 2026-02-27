@@ -5,17 +5,17 @@
 
 ```json
 {
-    "JIRA_ID": "ADASVISION-2333",
-    "TEST_APP_NAME": "vx_app_tutorial",
-    "DESCRIPTION": "Run vx_app_tutorial.out",
-    "CORE": "a72",
-    "OS": ["linux", "qnx"],
-    "BOOT_MODE": "mmcsd",
-    "PLATFORM": ["j721s2_evm", "j721e_evm", "j784s4_evm"],
-    "ITERATION": "1",
-    "TIMEOUT": 200,
-    "TEST_FLOW": "command_line",
-    "TEST_STEPS": [
+    "jira_id": "ADASVISION-2333",
+    "test_app_name": "vx_app_tutorial",
+    "description": "Run vx_app_tutorial.out",
+    "core": "a72",
+    "os": ["linux", "qnx"],
+    "boot_mode": "mmcsd",
+    "platform": ["j721s2_evm", "j721e_evm", "j784s4_evm"],
+    "iteration": "1",
+    "timeout": 200,
+    "test_flow": "command_line",
+    "test_steps": [
         {
             "type": "power_control",
             "power_state": "reset"

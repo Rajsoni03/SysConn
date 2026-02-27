@@ -1,0 +1,133 @@
+{
+    "id": "test_004",
+    "device_name": "j721s2-evm",
+    "device_id": "#001",
+    "jira_id": "ADASVISION-1004",
+    "test_app_name": "file_transfer_test",
+    "description": "Test combining host commands and DUT commands",
+    "core": "a72",
+    "os": ["linux"],
+    "boot_mode": "sd_card",
+    "platform": ["j721s2_evm"],
+    "iteration": "1",
+    "timeout": 400,
+    "test_flow": "command_line",
+    "test_steps": [
+        {
+            "type": "host_command",
+            "command_info": {
+                "command": "ls -la /opt/test_files/",
+                "cwd": "/home/user"
+            },
+            "constraint": {
+                "expected_output": "test_app.bin",
+                "return_code": 0,
+                "timeout": 10
+            }
+        },
+        {
+            "type": "power_control",
+            "power_state": "reset",
+            "post_delay": 20
+        },
+        {
+            "type": "boot_mode",
+            "boot_mode_name": "sd_card",
+            "post_delay": 2
+        },
+        {
+            "type": "uart_command",
+            "command_info": {
+                "command": "root",
+                "uart_port": "application"
+            },
+            "constraint": {
+                "expected_output": "root@",
+                "log_port": "application",
+                "timeout": 60
+            }
+        },
+        {
+            "type": "uart_command",
+            "command_info": {
+                "command": "ifconfig eth0 up",
+                "uart_port": "application"
+            },
+            "constraint": {
+                "expected_output": "root@",
+                "log_port": "application",
+                "timeout": 10
+            }
+        },
+        {
+            "type": "uart_command",
+            "command_info": {
+                "command": "mkdir -p /opt/test_apps",
+                "uart_port": "application"
+            },
+            "constraint": {
+                "expected_output": "root@",
+                "log_port": "application",
+                "timeout": 5
+            }
+        },
+        {
+            "type": "host_command",
+            "command_info": {
+                "command": "scp /opt/test_files/test_app.bin root@192.168.1.100:/opt/test_apps/",
+                "cwd": "/home/user"
+            },
+            "constraint": {
+                "return_code": 0,
+                "timeout": 60
+            },
+            "retry_count": 2
+        },
+        {
+            "type": "uart_command",
+            "command_info": {
+                "command": "ls -l /opt/test_apps/",
+                "uart_port": "application"
+            },
+            "constraint": {
+                "expected_output": "test_app.bin",
+                "log_port": "application",
+                "timeout": 10
+            }
+        },
+        {
+            "type": "uart_command",
+            "command_info": {
+                "command": "chmod +x /opt/test_apps/test_app.bin && /opt/test_apps/test_app.bin",
+                "uart_port": "application"
+            },
+            "constraint": {
+                "expected_output": "Test Passed",
+                "log_port": "application",
+                "error_patterns": ["Error", "Failed", "Segmentation fault"],
+                "timeout": 120
+            },
+            "retry_count": 1
+        },
+        {
+            "type": "uart_command",
+            "command_info": {
+                "command": "shutdown -h now",
+                "uart_port": "application"
+            },
+            "constraint": {
+                "expected_output": "Power down",
+                "log_port": "application",
+                "timeout": 30
+            }
+        },
+        {
+            "type": "delay",
+            "delay_in_seconds": 10
+        },
+        {
+            "type": "power_control",
+            "power_state": "off"
+        }
+    ]
+}

@@ -1,8 +1,10 @@
 
+from enum import Enum
 import time
 import subprocess
 from pathlib import Path
 from typing import Dict, Any, Optional
+from src.app.db_client import DB
 from src.modules.dut import DUTConfig
 from src.modules.relay import RelayFactory
 from src.modules.uart import Uart
@@ -10,8 +12,14 @@ from test_flow.base_flow import IBaseFlow
 from config.settings import LOGS_DIR
 from pprint import pprint
 
+class TEST_STATUS(Enum):
+    INITIALIZED = "initialized"
+    RUNNING = "running"
+    COMPLETED = "completed"
+    FAILED = "failed"
+
 class CommandLineTestFlow(IBaseFlow):
-    def setup(self, data: dict, shared_data: dict, db) -> bool:
+    def setup(self, data: dict, shared_data: dict, db: DB) -> bool:
         # Setup necessary environment for command line test
         print("Setting up Command Line Test Flow")
         self.data = data
@@ -20,6 +28,7 @@ class CommandLineTestFlow(IBaseFlow):
         self.dut = None
         self.relay = None
         self.uart_connections = {}  # Store multiple UART connections
+        self.unique_id = data['id']
         return True
     
     def validate(self) -> bool:
@@ -38,6 +47,12 @@ class CommandLineTestFlow(IBaseFlow):
     def execute(self) -> bool:
         # Execute the command line test
         print("Executing Command Line Test Flow")
+        self.db.update(
+            {
+                'status': TEST_STATUS.RUNNING.value
+            },
+            lambda x: x.get('id') == self.unique_id
+        )
 
         try:
             # Initialize DUT configuration
@@ -63,10 +78,23 @@ class CommandLineTestFlow(IBaseFlow):
                     return False
 
             print("\n[Success] All test steps completed successfully")
+            self.db.update(
+                {
+                    'status': TEST_STATUS.COMPLETED.value
+                },
+                lambda x: x.get('id') == self.unique_id
+            )
             return True
 
         except Exception as e:
             print(f"[Error] Test execution failed: {e}")
+            self.db.update(
+                {
+                    'status': TEST_STATUS.FAILED.value
+                },
+                lambda x: x.get('id') == self.unique_id
+            )
+
             import traceback
             traceback.print_exc()
             return False
@@ -175,6 +203,16 @@ class CommandLineTestFlow(IBaseFlow):
 
             log_file = LOGS_DIR / str(self.data.get('id', 'test')) / f"{port_name}_uart.log"
             log_file.parent.mkdir(parents=True, exist_ok=True)
+
+            # Update logs in DB
+            
+            logs_list = self.db.search(lambda x: x.get("id") == self.unique_id)[0]["logs"]
+            self.db.update(
+                {
+                    'logs': logs_list + [str(log_file)]
+                },
+                lambda x: x.get('id') == self.unique_id
+            )
 
             uart = Uart(uart_port, 115200, log_file, 2)
             uart.connect()

@@ -28,3 +28,7 @@ LOGS_DIR = Path.cwd() / "logs"
 
 # Workarea
 WORKAREA_DIR = Path.cwd() / "workarea"
+
+# Docker Settings
+DOCKER_SDK_IMAGE = "sdk_image"
+DOCKER_SDK_DOCKERFILE_PATH = Path.cwd() / "docker" / "sdk"

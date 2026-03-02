@@ -16,7 +16,7 @@ class TestStatusService():
 
     def get_status(self) -> str:
         results = self.db.search(lambda x: x.get("id") == self.id)
-        print(f"Queried DB for test ID {self.id}, found results: {results}")
+        print(f"Queried DB for test ID {self.id}")
         if results and "status" in results[0]:
             return results[0]["status"]
         return ""

@@ -8,3 +8,4 @@ gunicorn==23.0.0
 eventlet==0.40.4
 pyudev==0.24.4
 tinydb==4.8.2
+docker==7.1.0

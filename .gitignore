@@ -216,3 +216,4 @@ data/db/
 test_socket/
 logs/
 workarea/
+docker/

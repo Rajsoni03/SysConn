@@ -1,0 +1,74 @@
+{
+    "id": "test_002",
+    "device_name": "j721s2-evm",
+    "device_id": "#001",
+    "jira_id": "ADASVISION-1002",
+    "test_app_name": "loop_command_test",
+    "description": "Test with loop executing multiple commands",
+    "core": "a72",
+    "os": ["linux"],
+    "boot_mode": "mmcsd",
+    "platform": ["j721s2_evm"],
+    "iteration": "1",
+    "timeout": 500,
+    "test_flow": "command_line",
+    "test_steps": [
+        {
+            "type": "power_control",
+            "power_state": "on",
+            "post_delay": 15
+        },
+        {
+            "type": "uart_command",
+            "command_info": {
+                "command": "root",
+                "uart_port": "application"
+            },
+            "constraint": {
+                "expected_output": "root@",
+                "log_port": "application",
+                "timeout": 30
+            }
+        },
+        {
+            "type": "loop",
+            "loop_count": 3,
+            "block": {
+                "type": "uart_command",
+                "command_info": {
+                    "command": "{command}",
+                    "uart_port": "application"
+                },
+                "constraint": {
+                    "expected_output": "{expected_output}",
+                    "log_port": "application",
+                    "timeout": 10
+                }
+            },
+            "values": {
+                "command": ["ls /", "pwd", "date"],
+                "expected_output": ["bin", "/", "UTC"]
+            }
+        },
+        {
+            "type": "uart_command",
+            "command_info": {
+                "command": "shutdown -h now",
+                "uart_port": "application"
+            },
+            "constraint": {
+                "expected_output": "Power down",
+                "log_port": "application",
+                "timeout": 30
+            }
+        },
+        {
+            "type": "delay",
+            "delay_in_seconds": 5
+        },
+        {
+            "type": "power_control",
+            "power_state": "off"
+        }
+    ]
+}

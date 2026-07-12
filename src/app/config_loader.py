@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 from src.utils.singleton import SingletonMeta
-from src.app.settings import CONFIG_PATH
+from config.settings import CONFIG_PATH
 
 class Config(metaclass=SingletonMeta):
     def __init__(self, config_path=CONFIG_PATH):

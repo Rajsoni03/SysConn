@@ -2,7 +2,7 @@ from flask_restful import reqparse, Resource
 from src.services.workarea_service import WorkareaService
 
 parser = reqparse.RequestParser()
-service = WorkareaService("./workareas")
+service = WorkareaService()
 
 class Workarea(Resource):
     def post(self):

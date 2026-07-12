@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 
 class ICommandService(ABC):
     @abstractmethod
-    def run_command(self, workarea: str, command: str) -> tuple:
+    def run_command(self, command: str, cwd: str = None, env: dict = None) -> tuple: # type: ignore
         pass
 
 class CommandService(ICommandService):

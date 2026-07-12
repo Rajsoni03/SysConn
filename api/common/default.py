@@ -9,7 +9,7 @@ from flask import render_template, make_response, request
 from flask_restful import Resource
 from src.app.config_loader import Config
 from src.utils.ip_utils import get_local_ip
-from src.app.settings import TOOL_VERSION, CONFIG_PATH
+from config.settings import TOOL_VERSION, CONFIG_PATH
 
 config = Config()
 
@@ -34,7 +34,7 @@ class SetConfig(Resource):
 
         # Validate input
         invalid_input = ['', None, 'None', 'none', 'NULL', 'null', 'undefined', 'NaN', 'nan']
-        if args.get("AUTH_TOKEN") in invalid_input or args.get("SUDO_PASSWORD").lower() in invalid_input:
+        if args.get("AUTH_TOKEN") in invalid_input or args.get("SUDO_PASSWORD", "").lower() in invalid_input:
             response = {
                 "status": "error",
                 "message": "AUTH_TOKEN and SUDO_PASSWORD cannot be empty or None"
@@ -58,9 +58,20 @@ class SetConfig(Resource):
             return response, 500
 
 
+def _git_commit():
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "--short", "HEAD"],
+            stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True
+        )
+        return result.stdout.strip() if result.returncode == 0 else "unknown"
+    except Exception:
+        return "unknown"
+
+
 class Version(Resource):
     def get(self):
-        return {"version": TOOL_VERSION}, 200
+        return {"version": TOOL_VERSION, "commit": _git_commit()}, 200
 
 
 class Update(Resource):
@@ -69,7 +80,7 @@ class Update(Resource):
             # Step 1: Pull the latest code
             repo_dir = os.getcwd()
             result = subprocess.run(
-                ["git", "pull", "origin", "main"], cwd=repo_dir,
+                ["git", "pull", "origin"], cwd=repo_dir,
                 stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
             )
 

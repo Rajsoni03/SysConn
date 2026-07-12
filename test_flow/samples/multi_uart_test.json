@@ -1,0 +1,127 @@
+{
+    "id": "test_005",
+    "device_name": "j721s2-evm",
+    "device_id": "#001",
+    "jira_id": "ADASVISION-1005",
+    "test_app_name": "multi_core_test",
+    "description": "Test using multiple UART ports for different cores",
+    "core": "multi",
+    "os": ["linux", "rtos"],
+    "boot_mode": "mmcsd",
+    "platform": ["j721s2_evm"],
+    "iteration": "1",
+    "timeout": 500,
+    "test_flow": "command_line",
+    "test_steps": [
+        {
+            "type": "power_control",
+            "power_state": "reset",
+            "post_delay": 15
+        },
+        {
+            "type": "uart_command",
+            "command_info": {
+                "command": "root",
+                "uart_port": "application"
+            },
+            "constraint": {
+                "expected_output": "root@",
+                "log_port": "application",
+                "timeout": 60
+            }
+        },
+        {
+            "type": "uart_command",
+            "command_info": {
+                "command": "cd /opt/vision_apps/",
+                "uart_port": "application"
+            },
+            "constraint": {
+                "expected_output": "root@",
+                "log_port": "application",
+                "timeout": 5
+            }
+        },
+        {
+            "type": "uart_command",
+            "command_info": {
+                "command": "./app_multi_core.out",
+                "uart_port": "application"
+            },
+            "constraint": {
+                "expected_output": "Starting multi-core application",
+                "log_port": "application",
+                "timeout": 10
+            }
+        },
+        {
+            "type": "delay",
+            "delay_in_seconds": 5
+        },
+        {
+            "type": "uart_command",
+            "command_info": {
+                "command": "",
+                "uart_port": "mcu1"
+            },
+            "constraint": {
+                "expected_output": "MCU1_0 Task Running",
+                "log_port": "mcu1",
+                "timeout": 30
+            }
+        },
+        {
+            "type": "uart_command",
+            "command_info": {
+                "command": "",
+                "uart_port": "mcu2"
+            },
+            "constraint": {
+                "expected_output": "MCU2_0 Task Running",
+                "log_port": "mcu2",
+                "timeout": 30
+            }
+        },
+        {
+            "type": "uart_command",
+            "command_info": {
+                "command": "",
+                "uart_port": "application"
+            },
+            "constraint": {
+                "expected_output": "All cores initialized successfully",
+                "log_port": "application",
+                "timeout": 30
+            }
+        },
+        {
+            "type": "uart_command",
+            "command_info": {
+                "command": "x",
+                "uart_port": "application"
+            },
+            "constraint": {
+                "expected_output": "Exiting application",
+                "log_port": "application",
+                "timeout": 60
+            }
+        },
+        {
+            "type": "uart_command",
+            "command_info": {
+                "command": "shutdown -h now",
+                "uart_port": "application"
+            },
+            "constraint": {
+                "expected_output": "Power down",
+                "log_port": "application",
+                "timeout": 30
+            }
+        },
+        {
+            "type": "power_control",
+            "power_state": "off",
+            "pre_delay": 5
+        }
+    ]
+}

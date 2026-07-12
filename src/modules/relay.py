@@ -65,7 +65,6 @@ class SerialRelay(Relay):
         self.set_state(relay_no, 1)
 
     # helper function to set the state of a relay
-    @staticmethod
     def set_state(self, relay_no, state):
         num = (relay_no-1) ^ state
         byte_string = num.to_bytes(1, byteorder='big')
@@ -118,7 +117,6 @@ class IpRelay(Relay):
         time.sleep(1)
 
     # helper function to toggle the state of a relay
-    @staticmethod
     def set_state(self, relay_no, state):
         url = self.base_url + f"/relay/outlets/{relay_no - 1}/state/"
         data = {"value": "true" if state == 1 else "false"}

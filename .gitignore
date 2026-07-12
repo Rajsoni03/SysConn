@@ -134,6 +134,9 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
+# AI Agent
+AI_AGENT/
+
 # Environments
 .env
 .envrc
@@ -210,5 +213,8 @@ __marimo__/
 .github/
 data/config.json
 data/db/
-test_socket/
+tests/
 logs/
+workarea/
+docker/
+config/config.json

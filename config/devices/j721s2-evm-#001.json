@@ -1,0 +1,40 @@
+{
+    "device_name": "j721s2-evm-#001",
+    "device_type": "j721s2-evm",
+    "uart_port_map": {
+        "mpu0" : "/dev/ttyUSB0",
+        "mpu1" : "/dev/ttyUSB1",
+        "mpu2" : "/dev/ttyUSB2",
+        "mpu3" : "/dev/ttyUSB3",
+        "mcu0": "/dev/ttyUSB4",
+        "mcu1": "/dev/ttyUSB5",
+        "application" : "/dev/ttyUSB0",
+        "sbl": "/dev/ttyUSB4",
+        "debug": "/dev/ttyACM2",
+        "auto": "/dev/ttyUSB0",
+        "default": "/dev/ttyUSB0"
+    },
+    "boot_mode_map": {
+        "uart": "000E",
+        "emmc": "000D",
+        "sd_card": "000C",
+        "usb": "000B",
+        "network": "000A",
+        "default": "000E"
+    },
+    "health_check": {
+        "uart_ports": ["mpu0", "mpu1", "mpu2", "mpu3", "mcu0", "mcu1", "application", "sbl", "debug"],
+        "check_interval_seconds": 60,
+        "error_threshold": 5
+    },
+    "power_config": {
+        "module": "relay",
+        "settings": {
+            "ip_address": "10.24.50.173",
+            "port": 1,
+            "username": "admin",
+            "password": "1234",
+            "outlet_number": 1
+        }
+    }
+}

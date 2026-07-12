@@ -1,0 +1,115 @@
+{
+    "id": "test_006",
+    "device_name": "j721s2-evm",
+    "device_id": "#001",
+    "jira_id": "ADASVISION-1006",
+    "test_app_name": "stress_test",
+    "description": "Stress test with multiple power cycles and command loops",
+    "core": "a72",
+    "os": ["linux"],
+    "boot_mode": "emmc",
+    "platform": ["j721s2_evm"],
+    "iteration": "5",
+    "timeout": 1200,
+    "test_flow": "command_line",
+    "test_steps": [
+        {
+            "type": "loop",
+            "loop_count": 5,
+            "block": {
+                "type": "power_control",
+                "power_state": "{power_state}",
+                "post_delay": 15
+            },
+            "values": {
+                "power_state": ["reset", "reset", "reset", "reset", "reset"]
+            }
+        },
+        {
+            "type": "uart_command",
+            "command_info": {
+                "command": "root",
+                "uart_port": "application"
+            },
+            "constraint": {
+                "expected_output": "root@",
+                "log_port": "application",
+                "timeout": 60
+            },
+            "retry_count": 3
+        },
+        {
+            "type": "loop",
+            "loop_count": 10,
+            "block": {
+                "type": "uart_command",
+                "command_info": {
+                    "command": "{command}",
+                    "uart_port": "application"
+                },
+                "constraint": {
+                    "expected_output": "root@",
+                    "log_port": "application",
+                    "timeout": 10
+                }
+            },
+            "values": {
+                "command": [
+                    "cat /proc/meminfo",
+                    "cat /proc/cpuinfo",
+                    "df -h",
+                    "free -m",
+                    "uptime",
+                    "cat /proc/interrupts",
+                    "ps aux | head -20",
+                    "dmesg | tail -20",
+                    "cat /proc/loadavg",
+                    "cat /proc/version"
+                ]
+            }
+        },
+        {
+            "type": "uart_command",
+            "command_info": {
+                "command": "stress-ng --cpu 4 --timeout 60s --metrics",
+                "uart_port": "application"
+            },
+            "constraint": {
+                "expected_output": "successful run completed",
+                "log_port": "application",
+                "error_patterns": ["error", "failed", "segmentation"],
+                "timeout": 120
+            }
+        },
+        {
+            "type": "host_command",
+            "command_info": {
+                "command": "echo 'Test iteration completed at' && date"
+            },
+            "constraint": {
+                "return_code": 0,
+                "timeout": 5
+            }
+        },
+        {
+            "type": "uart_command",
+            "command_info": {
+                "command": "shutdown -h now",
+                "uart_port": "application"
+            },
+            "constraint": {
+                "expected_output": "Power down",
+                "log_port": "application",
+                "timeout": 30
+            }
+        },
+        {
+            "type": "delay",
+            "delay_in_seconds": 10
+        },
+        {
+            "type": "power_control",
+            "power_state": "off"
+        }
+    ]
+}

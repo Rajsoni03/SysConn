@@ -2,7 +2,7 @@ from pathlib import Path
 import socket
 
 # Application Version
-TOOL_VERSION = "1.0.6"
+TOOL_VERSION = "1.0.7"
 
 # Latest API Version
 API_VERSION = "v1"

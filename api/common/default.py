@@ -80,7 +80,7 @@ class Update(Resource):
             # Step 1: Pull the latest code
             repo_dir = os.getcwd()
             result = subprocess.run(
-                ["git", "pull", "origin", "main"], cwd=repo_dir,
+                ["git", "pull", "origin"], cwd=repo_dir,
                 stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
             )
 
